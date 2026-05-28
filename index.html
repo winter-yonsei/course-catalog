@@ -1321,13 +1321,14 @@ async function loadData() {
       document.body.insertBefore(banner, document.body.firstChild);
     } else {
       // ── LIVE MODE — Fetch from Google Sheets ──
-      const courseRes = await fetch(CONFIG.coursesUrl);
+      const cacheBust = '&_t=' + Date.now();
+      const courseRes = await fetch(CONFIG.coursesUrl + cacheBust);
       if (!courseRes.ok) throw new Error(`Course data fetch failed: ${courseRes.status}`);
       const courseText = await courseRes.text();
       allCourses = parseCSV(courseText);
 
       try {
-        const settRes = await fetch(CONFIG.settingsUrl);
+        const settRes = await fetch(CONFIG.settingsUrl + cacheBust);
         if (settRes.ok) {
           const settText = await settRes.text();
           settings = parseSettings(settText);
