@@ -1478,9 +1478,9 @@ function renderCard(c) {
   // Badges
   let badges = '';
   if (session) badges += sessionBadge(session);
-  if (period) badges += periodBadge(period);
   if (registerEarly && (registerEarly === 'yes' || registerEarly.includes('high') || registerEarly.includes('demand'))) badges += '<span class="badge badge-early">🔥 High Demand</span>';
   if (updated) badges += `<span class="badge badge-updated">🔄 ${updated}</span>`;
+  if (period) badges += periodBadge(period);
 
   // Professor display
   const profHtml = profLink
