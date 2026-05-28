@@ -663,16 +663,6 @@ body {
   color: var(--text-3);
 }
 
-.sp-syllabus-note {
-  padding: 10px 14px;
-  margin: 0 12px 8px;
-  background: var(--surface);
-  border-left: 3px solid var(--warn);
-  border-radius: 4px;
-  font-size: 10px;
-  color: var(--text-3);
-  line-height: 1.6;
-}
 .sp-credits {
   padding: 14px 16px;
   background: linear-gradient(135deg, var(--primary-d), var(--primary-l));
@@ -1488,7 +1478,6 @@ function renderCard(c) {
   // Badges
   let badges = '';
   if (session) badges += sessionBadge(session);
-  if (period) badges += periodBadge(period);
   if (registerEarly && (registerEarly === 'yes' || registerEarly.includes('high') || registerEarly.includes('demand'))) badges += '<span class="badge badge-early">🔥 High Demand</span>';
   if (updated) badges += `<span class="badge badge-updated">🔄 ${updated}</span>`;
 
@@ -1526,7 +1515,7 @@ function renderCard(c) {
       <div class="cc-title">${esc(title)}</div>
       <div class="cc-details">
         <div class="cc-detail-row"><span class="icon">👤</span>${profHtml}</div>
-        <div class="cc-detail-row"><span class="icon">🕐</span>${esc(days)} · ${esc(time)}${period ? ' ('+esc(period)+')' : ''}</div>
+        <div class="cc-detail-row"><span class="icon">🕐</span>${esc(days)} · ${esc(time)}</div>
         <div class="cc-detail-row"><span class="icon">📍</span>${locHtml}</div>
         <div class="cc-detail-row"><span class="icon">📚</span>${esc(credits)} Credits</div>
       </div>
@@ -1686,9 +1675,6 @@ function initSchedulePanel() {
       <div class="cal-grid" id="calGrid">${calHTML}</div>
       <div class="sp-list" id="schedList">
         <div class="sp-empty">Click "+ Schedule" on a course card to add it here.</div>
-      </div>
-      <div class="sp-syllabus-note">
-        ⚠️ Course syllabi listed here are published on the YISS/WAY website and are <strong>not synced</strong> with the Academic Portal (Yonsei Portal). If any updates are made, they must also be reflected on the Academic Portal separately.
       </div>
       <div class="sp-credits">
         <span>Total Credits</span>
