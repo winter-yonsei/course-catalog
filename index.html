@@ -1601,9 +1601,19 @@ function getFilteredCourses() {
       if (level === 'upper' && num !== 3) return false;
       if (level === 'advanced' && num !== 4) return false;
     }
-    return true;
-  });
-}
+   return true;
+     }).sort(function(a, b) {
+       // 과목명 기준 알파벳순 정렬 (앞의 * 무시)
+       var ta = (a[col.title] || '').replace(/^\*/, '').trim().toUpperCase();
+       var tb = (b[col.title] || '').replace(/^\*/, '').trim().toUpperCase();
+       if (ta < tb) return -1;
+       if (ta > tb) return 1;
+       // 과목명이 같으면 학정코드순 (분반 -01, -02 정렬)
+       var ca = (a[col.code] || '').toUpperCase();
+       var cb = (b[col.code] || '').toUpperCase();
+       return ca < cb ? -1 : ca > cb ? 1 : 0;
+     });
+   }
 
 function parseStartHour(timeStr) {
   const m = timeStr.match(/(\d{1,2})/);
