@@ -58,6 +58,8 @@
   --badge-p1-bg:    #ecfdf5;
   --badge-p2:       #2563eb;
   --badge-p2-bg:    #eff6ff;
+  --badge-kli:      #7e22ce;
+  --badge-kli-bg:   #f3e8ff;
 }
 
 /* ══ RESET & BASE ═══════════════════ */
@@ -378,6 +380,7 @@ body {
 .badge-video  { background: var(--badge-video-bg);  color: var(--badge-video); }
 .badge-p1     { background: var(--badge-p1-bg);     color: var(--badge-p1); }
 .badge-p2     { background: var(--badge-p2-bg);     color: var(--badge-p2); }
+.badge-kli    { background: var(--badge-kli-bg);   color: var(--badge-kli); }
 .badge-early {
   background: linear-gradient(135deg, #ef4444, #f97316);
   color: white;
@@ -1155,7 +1158,7 @@ const CONFIG = {
 
   /* ── Period → Time of Day mapping ──── */
   morningPeriods:    ['P1', 'P2', '1A', 'Period 1'],
-  afternoonPeriods:  ['P3', '2A', 'Period 2'],
+  afternoonPeriods:  ['P3', '2A', 'Period 2', 'KLI'],
   onlinePeriods:     ['Online', 'Video', 'Video Lecture'],
 
   /* ── Internship session label ──────── */
@@ -1540,11 +1543,14 @@ function sessionBadge(session) {
 function periodBadge(period) {
   if (!period) return '';
   const p = period.toUpperCase();
-  // Strip parenthetical content: "Period 1 (09:30-12:25)" → "Period 1"
-  const label = period.replace(/\s*\(.*\)/, '').trim();
-  if (['P1','P2','1A','PERIOD 1'].some(x => p.includes(x))) return `<span class="badge badge-p1">${esc(label)}</span>`;
-  if (['P3','2A','PERIOD 2'].some(x => p.includes(x))) return `<span class="badge badge-p2">${esc(label)}</span>`;
-  if (['ONLINE','VIDEO'].some(x => p.includes(x))) return `<span class="badge badge-video">${esc(label)}</span>`;
+  // "Period 2 (For KLI)" → "Period 2 (For KLI)" 유지, 그 외는 괄호 안 시간 제거
+  const isKLI = p.includes('KLI');
+  const label = isKLI ? period.trim() : period.replace(/\s*\(.*\)/, '').trim();
+
+  if (isKLI) return `<span class="badge badge-kli">${esc(label)}</span>`;
+  if (['ONLINE','VIDEO','PRE-RECORDED'].some(x => p.includes(x))) return `<span class="badge badge-video">${esc(label)}</span>`;
+  if (['P1','1A','PERIOD 1'].some(x => p.includes(x))) return `<span class="badge badge-p1">${esc(label)}</span>`;
+  if (['P3','P2','2A','PERIOD 2'].some(x => p.includes(x))) return `<span class="badge badge-p2">${esc(label)}</span>`;
   return `<span class="badge badge-video">${esc(label)}</span>`;
 }
 
